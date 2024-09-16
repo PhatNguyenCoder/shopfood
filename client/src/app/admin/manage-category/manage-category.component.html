@@ -1,0 +1,144 @@
+<div class="">
+  <div class="grid grid-cols-6 py-20">
+    <div class="col-span-4 mx-3">
+      <table class="w-full text-sm">
+        <thead class="bg-primary text-white border border-primary">
+          <tr>
+            <th class="ct-table-style-th-td">Category Id</th>
+            <th class="ct-table-style-th-td">Category Name</th>
+            <th class="ct-table-style-th-td">Active</th>
+            <th class="ct-table-style-th-td"></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let category of categories">
+          <tr>
+            <td class="ct-table-style-th-td">{{ category.categoryId }}</td>
+            <td class="ct-table-style-th-td">{{ category.categoryName }}</td>
+            <td class="ct-table-style-th-td">
+              {{ category.active === 1 ? "Hiển thị" : "Ẩn" }}
+            </td>
+            <td class="ct-table-style-th-td">
+              <div class="space-x-2 flex justify-center">
+                <button
+                  class="bg-green-600 text-white p-2"
+                  (click)="OnUpdateCategory(category._id)"
+                >
+                  Update
+                </button>
+                <button
+                  class="bg-red-500 text-white p-2"
+                  (click)="deleteCategory(category._id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-span-2 p-2 mx-5">
+      <form [formGroup]="cateForm">
+        <div class="hidden">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="_id"
+            placeholder="Tiêu đề bài viết"
+          />
+        </div>
+        <div class="space-y-9">
+          <div>
+            <label>CategoryId:</label> <br />
+            <input
+              type="text"
+              class="input-admin"
+              formControlName="categoryId"
+            />
+            <div
+              *ngIf="
+                (cateForm.get('categoryId')?.invalid &&
+                  cateForm.get('categoryId')?.dirty) ||
+                cateForm.get('categoryId')?.touched
+              "
+              class="absolute py-2 text-sm text-red-500"
+            >
+              <div *ngIf="cateForm.get('categoryId')?.errors?.['required']">
+                Category Id is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>CategoryName:</label> <br />
+            <input
+              type="text"
+              class="input-admin"
+              formControlName="categoryName"
+            />
+            <div
+              *ngIf="
+                (cateForm.get('categoryName')?.invalid &&
+                  cateForm.get('categoryName')?.dirty) ||
+                cateForm.get('categoryName')?.touched
+              "
+              class="absolute py-2 text-sm text-red-500"
+            >
+              <div *ngIf="cateForm.get('categoryName')?.errors?.['required']">
+                Category Name is required
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between w-28">
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="active"
+                  formControlName="active"
+                  [value]="0"
+                />
+                Ẩn
+              </label>
+            </div>
+            <div class="relative">
+              <label>
+                <input
+                  type="radio"
+                  name="active"
+                  formControlName="active"
+                  [value]="1"
+                />
+                Hiện
+              </label>
+            </div>
+            <div
+              *ngIf="
+                (cateForm.get('active')?.invalid &&
+                  cateForm.get('active')?.dirty) ||
+                cateForm.get('active')?.touched
+              "
+              class="absolute py-2 text-sm text-red-500"
+            >
+              <div
+                class="absolute w-36 mt-4"
+                *ngIf="cateForm.get('active')?.errors?.['required']"
+              >
+                Active is required
+              </div>
+            </div>
+          </div>
+          <div class="space-x-5">
+            <button
+              type="submit"
+              class="submit-admin"
+              (click)="addOrUpdateCate()"
+            >
+              {{ cateForm.value._id ? "Cập nhật" : "Lưu" }}
+            </button>
+            <button type="reset" class="submit-admin">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

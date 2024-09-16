@@ -1,0 +1,12 @@
+.fullscreen {
+  height: 100vh; /* Chiều cao của toàn bộ màn hình */
+  width: 100vw; /* Chiều rộng của toàn bộ màn hình */
+}
+
+.input-login {
+  @apply w-full p-2 focus:outline-none mt-1 rounded-lg;
+}
+
+.submit-login {
+  @apply bg-gray-400 text-white px-10 py-2 cursor-pointer rounded-xl;
+}

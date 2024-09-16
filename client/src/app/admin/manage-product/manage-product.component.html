@@ -1,0 +1,611 @@
+<div class="">
+  <div class="flex mx-2 p-4">
+    <button
+      class="ml-auto bg-secondary_linear text-white p-2"
+      (click)="showForm()"
+    >
+      Add New
+    </button>
+  </div>
+  <div class="mx-4">
+    <table class="w-full text-sm">
+      <thead class="bg-primary text-white border border-primary">
+        <tr>
+          <th class="ct-table-style-th-td">Thông Tin Sản Phẩm</th>
+          <th class="ct-table-style-th-td">Nổi bật</th>
+
+          <th class="ct-table-style-th-td">Trạng Thái</th>
+          <th class="ct-table-style-th-td"></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let product of products">
+        <tr>
+          <td class="ct-table-style-th-td">
+            <div class="flex gap-4">
+              <div>
+                <img
+                  src="http://localhost:3002{{ product.image }}"
+                  alt=""
+                  class="w-28"
+                />
+              </div>
+              <div class="space-y-2">
+                <p>{{ product.productName }}</p>
+                <p>{{ product.price }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="ct-table-style-th-td">
+            {{ product.hot === 1 ? "Nổi bật" : "Không" }}
+          </td>
+
+          <td class="ct-table-style-th-td">
+            {{ product.active === 1 ? "Hiển thị" : "Ẩn" }}
+          </td>
+          <td class="ct-table-style-th-td">
+            <div class="space-x-2 flex justify-center">
+              <button
+                class="bg-green-600 text-white p-2"
+                (click)="submitUpdate(product._id)"
+              >
+                Update
+              </button>
+
+              <button
+                class="bg-red-500 text-white p-2"
+                (click)="deleteProduct(product._id)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add new -->
+<div *ngIf="isForm" class="overlay" (click)="hideForm()">
+  <div class="absolute top-0 py-5 animate" (click)="$event.stopPropagation()">
+    <form
+      [formGroup]="productForm"
+      (ngSubmit)="submit()"
+      enctype="multipart/form-data"
+    >
+      <div class="bg-violet-300 grid grid-cols-4 gap-5 w-1000 p-5">
+        <div class="col-span-2 space-y-8">
+          <div>
+            <label>Product Name</label> <br />
+            <input
+              type="text"
+              class="input-admin"
+              formControlName="productName"
+            />
+            <div
+              *ngIf="
+                (productForm.get('productName')?.invalid &&
+                  productForm.get('productName')?.dirty) ||
+                productForm.get('productName')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('productName')?.errors?.['required']">
+                Product Name is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Price</label> <br />
+            <input type="text" class="input-admin" formControlName="price" />
+            <div
+              *ngIf="
+                (productForm.get('price')?.invalid &&
+                  productForm.get('price')?.dirty) ||
+                productForm.get('price')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('price')?.errors?.['required']">
+                Product Name is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Image</label> <br />
+            <input
+              type="file"
+              class="input-admin"
+              (change)="onFileChange($event)"
+            />
+
+            <div
+              *ngIf="
+                productForm.get('image')?.invalid &&
+                (productForm.get('image')?.dirty ||
+                  productForm.get('image')?.touched)
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('image')?.errors?.['required']">
+                Image is required.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>Category</label><br />
+            <select class="input-admin" formControlName="id_category">
+              <option value="0" selected>Category</option>
+              <option
+                *ngFor="let category of categories"
+                value="{{ category.categoryId }}"
+              >
+                {{ category.categoryName }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                (productForm.get('id_category')?.invalid &&
+                  productForm.get('id_category')?.dirty) ||
+                productForm.get('id_category')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('id_category')?.errors?.['required']">
+                Catgory is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Nổi bật</label>
+            <div class="flex justify-between w-40 py-3">
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="hot"
+                    value="1"
+                    formControlName="hot"
+                  />
+                  Nổi bật
+                </label>
+              </div>
+              <div class="relative">
+                <label>
+                  <input
+                    type="radio"
+                    name="hot"
+                    value="0"
+                    formControlName="hot"
+                  />
+                  Không
+                </label>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                (productForm.get('hot')?.invalid &&
+                  productForm.get('hot')?.dirty) ||
+                productForm.get('hot')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('hot')?.errors?.['required']">
+                Hot is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-2 space-y-8">
+          <div>
+            <label>Description</label> <br />
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="description"
+            ></textarea>
+            <div
+              *ngIf="
+                (productForm.get('description')?.invalid &&
+                  productForm.get('description')?.dirty) ||
+                productForm.get('description')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('description')?.errors?.['required']">
+                Description is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Ingredient</label>
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="ingredient"
+            ></textarea>
+            <div
+              *ngIf="
+                (productForm.get('ingredient')?.invalid &&
+                  productForm.get('ingredient')?.dirty) ||
+                productForm.get('ingredient')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('ingredient')?.errors?.['required']">
+                Ingredient is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Energy</label>
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="energy"
+            ></textarea>
+            <div
+              *ngIf="
+                (productForm.get('energy')?.invalid &&
+                  productForm.get('energy')?.dirty) ||
+                productForm.get('energy')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('energy')?.errors?.['required']">
+                Energy is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Active</label>
+            <div class="flex justify-between w-40 py-4">
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="active"
+                    value="1"
+                    formControlName="active"
+                  />
+                  Hiển thị
+                </label>
+              </div>
+              <div class="relative">
+                <label>
+                  <input
+                    type="radio"
+                    name="active"
+                    value="0"
+                    formControlName="active"
+                  />
+                  Ẩn
+                </label>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                (productForm.get('active')?.invalid &&
+                  productForm.get('active')?.dirty) ||
+                productForm.get('active')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productForm.get('active')?.errors?.['required']">
+                active is required
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-5">
+            <div>
+              <input type="submit" value="Thêm" class="submit-admin" />
+            </div>
+            <div><input type="reset" value="Reset" class="submit-admin" /></div>
+            <div>
+              <input
+                type="button"
+                value="Đóng"
+                class="submit-admin"
+                (click)="hideForm()"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- update -->
+<div *ngIf="isFormUpdate" class="overlay" (click)="hideFormUpdate()">
+  <div class="absolute top-0 py-5 animate" (click)="$event.stopPropagation()">
+    <form
+      *ngFor="let product of products"
+      [formGroup]="productFormUpdate"
+      enctype="multipart/form-data"
+    >
+      <div class="bg-violet-300 grid grid-cols-4 gap-5 w-1000 p-5">
+        <div class="col-span-2 space-y-8">
+          <div class="block">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="_id"
+              placeholder="Tiêu đề bài viết"
+              class="w-full"
+            />
+          </div>
+          <div>
+            <label>Product Name</label> <br />
+            <input
+              type="text"
+              class="input-admin"
+              formControlName="productName"
+            />
+            <div
+              *ngIf="
+                (productFormUpdate.get('productName')?.invalid &&
+                  productFormUpdate.get('productName')?.dirty) ||
+                productFormUpdate.get('productName')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div
+                *ngIf="productFormUpdate.get('productName')?.errors?.['required']"
+              >
+                Product Name is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Price</label> <br />
+            <input type="text" class="input-admin" formControlName="price" />
+            <div
+              *ngIf="
+                (productFormUpdate.get('price')?.invalid &&
+                  productFormUpdate.get('price')?.dirty) ||
+                productFormUpdate.get('price')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productFormUpdate.get('price')?.errors?.['required']">
+                Product Name is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Image</label> <br />
+            <input
+              type="file"
+              (change)="onFileChange($event)"
+              class="input-admin"
+            />
+            <div class="flex">
+              <img
+                [src]="
+                  'http://localhost:3002' +
+                  productFormUpdate.get('image')?.value
+                "
+                class="w-24 h-24"
+              />
+              <img
+                *ngIf="selectedImage"
+                [src]="selectedImage"
+                class="w-24 h-24"
+              />
+            </div>
+            <div
+              *ngIf="
+                productFormUpdate.get('image')?.invalid &&
+                (productFormUpdate.get('image')?.dirty ||
+                  productFormUpdate.get('image')?.touched)
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div *ngIf="productFormUpdate.get('image')?.errors?.['required']">
+                Image is required.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>Category</label><br />
+            <select class="input-admin" formControlName="id_category">
+              <option value="0" selected>Category</option>
+              <option
+                *ngFor="let category of categories"
+                value="{{ category.categoryId }}"
+              >
+                {{ category.categoryName }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                (productFormUpdate.get('id_category')?.invalid &&
+                  productFormUpdate.get('id_category')?.dirty) ||
+                productFormUpdate.get('id_category')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div
+                *ngIf="productFormUpdate.get('id_category')?.errors?.['required']"
+              >
+                Catgory is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-2 space-y-8">
+          <div>
+            <label>Description</label> <br />
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="description"
+            ></textarea>
+            <div
+              *ngIf="
+                (productFormUpdate.get('description')?.invalid &&
+                  productFormUpdate.get('description')?.dirty) ||
+                productFormUpdate.get('description')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div
+                *ngIf="productFormUpdate.get('description')?.errors?.['required']"
+              >
+                Description is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Ingredient</label>
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="ingredient"
+            ></textarea>
+            <div
+              *ngIf="
+                (productFormUpdate.get('ingredient')?.invalid &&
+                  productFormUpdate.get('ingredient')?.dirty) ||
+                productFormUpdate.get('ingredient')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div
+                *ngIf="productFormUpdate.get('ingredient')?.errors?.['required']"
+              >
+                Ingredient is required
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Energy</label>
+            <textarea
+              class="input-admin p-3"
+              rows="2"
+              formControlName="energy"
+            ></textarea>
+            <div
+              *ngIf="
+                (productFormUpdate.get('energy')?.invalid &&
+                  productFormUpdate.get('energy')?.dirty) ||
+                productFormUpdate.get('energy')?.touched
+              "
+              class="absolute text-sm text-red-500 pt-1"
+            >
+              <div
+                *ngIf="productFormUpdate.get('energy')?.errors?.['required']"
+              >
+                Energy is required
+              </div>
+            </div>
+          </div>
+          <div class="flex space-x-7">
+            <div>
+              <label>Nổi bật</label>
+              <div class="flex justify-between w-40 py-3">
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="hot"
+                      [value]="1"
+                      formControlName="hot"
+                    />
+                    Nổi bật
+                  </label>
+                </div>
+                <div class="relative">
+                  <label>
+                    <input
+                      type="radio"
+                      name="hot"
+                      [value]="0"
+                      formControlName="hot"
+                    />
+                    Không
+                  </label>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  (productFormUpdate.get('hot')?.invalid &&
+                    productFormUpdate.get('hot')?.dirty) ||
+                  productFormUpdate.get('hot')?.touched
+                "
+                class="absolute text-sm text-red-500 pt-1"
+              >
+                <div *ngIf="productFormUpdate.get('hot')?.errors?.['required']">
+                  Hot is required
+                </div>
+              </div>
+            </div>
+            <div>
+              <label>Active</label>
+              <div class="flex justify-between w-40 py-4">
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="active"
+                      [value]="1"
+                      formControlName="active"
+                    />
+                    Hiển thị
+                  </label>
+                </div>
+                <div class="relative">
+                  <label>
+                    <input
+                      type="radio"
+                      name="active"
+                      [value]="0"
+                      formControlName="active"
+                    />
+                    Ẩn
+                  </label>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  (productFormUpdate.get('active')?.invalid &&
+                    productFormUpdate.get('active')?.dirty) ||
+                  productFormUpdate.get('active')?.touched
+                "
+                class="absolute text-sm text-red-500 pt-1"
+              >
+                <div
+                  *ngIf="productFormUpdate.get('active')?.errors?.['required']"
+                >
+                  active is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-5">
+            <div>
+              <input
+                type="submit"
+                (click)="submitFormUpdate()"
+                value="Cập nhật"
+                class="submit-admin"
+              />
+            </div>
+            <div><input type="reset" value="Reset" class="submit-admin" /></div>
+            <div>
+              <input
+                type="button"
+                value="Đóng"
+                class="submit-admin"
+                (click)="hideFormUpdate()"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

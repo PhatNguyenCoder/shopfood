@@ -1,0 +1,62 @@
+<div class="mx-20 pt-2">
+  <div class="grid grid-cols-8">
+    <div class="col-span-2">
+      <h1 class="bg-red-400 text-white p-5 text-lg uppercase font-semibold">
+        Nổi bật
+      </h1>
+      <div class="p-2 space-y-3">
+        <div class="flex space-x-3 border-b-2 border-gray-300 py-3">
+          <div>
+            <img
+              src="../../../assets/images/com-chien-la-cam.jpg"
+              alt=""
+              class="w-24 h-20"
+            />
+          </div>
+          <div>
+            <div class="text-sm">
+              <a href="">Cơm Chiên Lá Cẩm</a>
+            </div>
+            <p class="text-sm text-orange-800 font-bold">100.000 đ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-6">
+      <h1 class="bg-white text-red-400 p-5 text-lg uppercase font-semibold">
+        <!-- Sản phẩm theo danh mục -->
+        {{ categoryName }}
+      </h1>
+      <hr />
+      <div *ngIf="empty" class="text-center text-red-500 py-8">Not found</div>
+      <div class="grid grid-cols-4 p-2 gap-4">
+        <!-- BOX SẢN PHẨM -->
+        <div *ngFor="let product of productCate">
+          <div class="p-2 border-b-2 border-gray-300 py-3">
+            <img src="http://localhost:3002{{ product.image }}" alt="" />
+            <div class="h-10 text-sm pt-2">
+              <a
+                routerLink="/product/{{ product._id }}"
+                routerLinkActive="router-link-active"
+                >{{ product.productName }}</a
+              >
+            </div>
+            <p class="text-sm font-bold text-orange-800 pt-3">
+              {{ product.price }}
+            </p>
+            <div class="flex">
+              <a routerLink="/cart" class="ml-auto">
+                <input
+                  type="submit"
+                  value="Đặt món"
+                  class="ml-auto bg-gray-400 text-white p-2 uppercase cursor-pointer"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- BOX SẢN PHẨM -->
+      </div>
+    </div>
+  </div>
+</div>

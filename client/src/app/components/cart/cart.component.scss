@@ -1,0 +1,7 @@
+.ct-table-style-th-td {
+  @apply border border-blue-500 px-2 py-2;
+}
+
+.quantity {
+  @apply border border-gray-400 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer;
+}

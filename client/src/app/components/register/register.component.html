@@ -1,0 +1,189 @@
+<div class="animate mx-10">
+  <div class="px-20 py-20">
+    <div
+      class="grid grid-cols-7 border border-orange-900 rounded overflow-hidden"
+    >
+      <div class="col-span-2">
+        <img
+          src="../../../assets/images/poster-login.png"
+          alt=""
+          class="bg-orange-300 w-full"
+        />
+      </div>
+      <div class="col-span-5 relative">
+        <h2 class="p-5 text-3xl uppercase font-medium text-orange-700">
+          Đăng Ký
+        </h2>
+        <hr />
+        <div class="mx-5 pt-2">
+          <form [formGroup]="regForm" class="space-y-8" (ngSubmit)="submit()">
+            <div class="grid grid-cols-4 gap-4">
+              <div class="col-span-2 space-y-8">
+                <div class="space relative">
+                  <label>First Name:</label> <br />
+                  <input
+                    type="text"
+                    formControlName="firstName"
+                    placeholder="First Name"
+                    class="input"
+                  />
+
+                  <div
+                    *ngIf="
+                      (regForm.get('firstName')?.invalid &&
+                        regForm.get('fisrtName')?.dirty) ||
+                      regForm.get('firstName')?.touched
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div *ngIf="regForm.get('firstName')?.errors?.['required']">
+                      First Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="space relative">
+                  <label>Email:</label> <br />
+                  <input
+                    type="email"
+                    formControlName="email"
+                    placeholder="example@gmail.com"
+                    class="input"
+                  />
+                  <div
+                    *ngIf="
+                      regForm.get('email')?.invalid &&
+                      (regForm.get('email')?.dirty ||
+                        regForm.get('email')?.touched)
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div *ngIf="regForm.get('email')?.errors?.['required']">
+                      Email is required
+                    </div>
+                    <div *ngIf="regForm.get('email')?.errors?.['email']">
+                      Email invalidate
+                    </div>
+                  </div>
+                </div>
+                <div class="space relative">
+                  <label>Password:</label> <br />
+                  <input
+                    type="password"
+                    formControlName="password"
+                    placeholder="************"
+                    class="input"
+                  />
+                  <div
+                    *ngIf="
+                      (regForm.get('password')?.invalid &&
+                        regForm.get('password')?.dirty) ||
+                      regForm.get('password')?.touched
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div *ngIf="regForm.get('password')?.errors?.['required']">
+                      Password is required
+                    </div>
+                    <div *ngIf="regForm.get('password')?.errors?.['minlength']">
+                      Password must be longer than 6 characters
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-2 space-y-8">
+                <div class="space relative">
+                  <label>Last Name:</label> <br />
+                  <input
+                    type="text"
+                    formControlName="lastName"
+                    placeholder="Last Name"
+                    class="input"
+                  />
+                  <div
+                    *ngIf="
+                      (regForm.get('lastName')?.invalid &&
+                        regForm.get('lastName')?.dirty) ||
+                      regForm.get('lastName')?.touched
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div *ngIf="regForm.get('lastName')?.errors?.['required']">
+                      Last Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="space relative">
+                  <label>Phone:</label> <br />
+                  <input
+                    type="text"
+                    formControlName="phone"
+                    placeholder="0123456789"
+                    class="input"
+                  />
+                  <div
+                    *ngIf="
+                      (regForm.get('phone')?.invalid &&
+                        regForm.get('phone')?.dirty) ||
+                      regForm.get('phone')?.touched
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div *ngIf="regForm.get('phone')?.errors?.['required']">
+                      Phone is required
+                    </div>
+                  </div>
+                </div>
+                <div class="space relative">
+                  <label>Confirm Password:</label> <br />
+                  <input
+                    type="password"
+                    formControlName="confirmPassword"
+                    placeholder="************"
+                    class="input"
+                  />
+                  <div
+                    *ngIf="
+                      regForm.get('confirmPassword')?.invalid &&
+                      (regForm.get('confirmPassword')?.dirty ||
+                        regForm.get('confirmPassword')?.touched)
+                    "
+                    class="text-red-700 absolute top-20"
+                  >
+                    <div
+                      *ngIf="regForm.get('confirmPassword')?.errors?.['required']"
+                    >
+                      Confirm Password is required
+                    </div>
+                    <!-- <div
+                      *ngIf="regForm.get('confirmPassword')?.errors?.['minlength']"
+                    >
+                      Confirm Password must be at least 6 characters long
+                    </div> -->
+                  </div>
+                  <div
+                    *ngIf="regForm.errors?.['password'] && (regForm.get('confirmPassword')?.dirty || regForm.get('confirmPassword')?.touched)"
+                    class="text-red-700 absolute top-20"
+                  >
+                    Mật khẩu không khớp
+                  </div>
+                </div>
+              </div>
+              <div>
+                <input type="submit" value="Đăng ký" class="submit mb-5 mt-5" />
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <span class="absolute bottom-0 right-0 p-3"
+          >Bạn đã có tài khoản<a
+            href="login"
+            class="text-orange-800 font-semibold"
+          >
+            Đăng nhập</a
+          ></span
+        >
+      </div>
+    </div>
+  </div>
+</div>

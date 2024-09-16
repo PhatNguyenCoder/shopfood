@@ -1,0 +1,69 @@
+<nav>
+  <ul>
+    <li>
+      <div class="mb-12 inline-flex justify-center w-full">
+        <img
+          src="../../../assets/images/user.jpg"
+          alt="user-profile-icon"
+          class="w-100 h-100 rounded-full overflow-hidden border border-lightgray"
+        />
+      </div>
+    </li>
+    <li>
+      <a routerLink="/admin/dashboard-admin" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/dashboard-admin/manage-category" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Category
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/dashboard-admin/manage-product" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Product
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/dashboard-admin/manage-order" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Orders
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/sales" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Sales
+      </a>
+    </li>
+    <li>
+      <a routerLink="/dashboard/customers" class="a-admin">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Customers
+      </a>
+    </li>
+    <li>
+      <a class="a-admin" (click)="logout()">
+        <div class="icon">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        Logout
+      </a>
+    </li>
+  </ul>
+</nav>

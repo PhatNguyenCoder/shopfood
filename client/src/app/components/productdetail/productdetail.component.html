@@ -1,0 +1,57 @@
+<div *ngIf="product" class="pt-5 py-5 bg-gray-100">
+  <div class="bg-white mx-20">
+    <div class="grid grid-cols-5 p-7 gap-5">
+      <div class="col-span-2">
+        <img
+          src="http://localhost:3002{{ product.image }}"
+          alt=""
+          class="w-full"
+        />
+      </div>
+      <div class="col-span-3">
+        <h1 class="text-3xl uppercase">{{ product.productName }}</h1>
+        <br />
+        <p class="text-sm text-black opacity-85">
+          {{ product.description }}
+        </p>
+        <p class="py-7 text-2xl text-orange-800 font-bold">
+          {{ product.price }}
+        </p>
+        <p class="text-black opacity-85">
+          Số lượng:
+          <input
+            type="number"
+            [(ngModel)]="quantity"
+            (change)="validateQuantity()"
+            class="p-2 ml-3 text-center w-24 focus:outline-none border border-black opacity-90"
+            min="1"
+          />
+        </p>
+        <p class="py-7">
+          <button
+            (click)="submitOrder(product._id, quantity)"
+            class="submit font-bold"
+          >
+            Đặt món
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white mx-20">
+    <div class="p-7">
+      <h1 class="text-2xl font-bold opacity-70 py-2">Thông tin chi tiết</h1>
+      <hr />
+      <div class="py-4">
+        <p class="font-bold">Thành phần:</p>
+        <p class="py-2">
+          {{ product.ingredient }}
+        </p>
+        <p class="font-bold">Năng lượng:</p>
+        <p class="py-2">
+          {{ product.energy }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

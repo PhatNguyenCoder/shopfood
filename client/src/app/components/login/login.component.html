@@ -1,0 +1,93 @@
+<div class="mx-20 animate">
+  <div class="p-5 pt-20 py-20">
+    <div
+      class="grid grid-cols-4 mx-40 border border-orange-900 rounded overflow-hidden"
+    >
+      <div class="col-span-1">
+        <img
+          src="../../../assets/images/poster-login.png"
+          alt=""
+          class="bg-orange-300 h-full"
+        />
+      </div>
+      <div class="col-span-3 relative">
+        <h2 class="p-5 text-3xl uppercase font-medium text-orange-700">
+          Đăng nhập
+        </h2>
+        <hr />
+        <div class="mx-5 pt-2">
+          <form [formGroup]="loginForm" class="space-y-8" (ngSubmit)="submit()">
+            <div class="space relative">
+              <label>Email:</label> <br />
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="example@gmail.com"
+                class="input"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('email')?.invalid &&
+                  (loginForm.get('email')?.dirty ||
+                    loginForm.get('email')?.touched)
+                "
+                class="text-red-700 absolute top-20"
+              >
+                <div *ngIf="loginForm.get('email')?.errors?.['required']">
+                  Email is required
+                </div>
+                <div *ngIf="loginForm.get('email')?.errors?.['email']">
+                  Email invalidate
+                </div>
+              </div>
+            </div>
+            <div class="space relative">
+              <label>Password:</label> <br />
+              <input
+                type="password"
+                formControlName="password"
+                placeholder="*******"
+                class="input"
+              />
+              <div class="flex space-x-2 absolute right-0">
+                <input type="checkbox" class="" />
+                <span class="text-gray-500">Hiện mật khẩu</span>
+              </div>
+
+              <div
+                *ngIf="
+                  (loginForm.get('password')?.invalid &&
+                    loginForm.get('password')?.dirty) ||
+                  loginForm.get('password')?.touched
+                "
+                class="text-red-700 absolute top-20"
+              >
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                  Password is required
+                </div>
+                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                  Password must be longer than 6 characters
+                </div>
+              </div>
+            </div>
+            <div *ngIf="errorMessage" class="error-message">
+              {{ errorMessage }}
+            </div>
+            <div class="pt-3 py-3">
+              <input type="submit" value="Đăng nhập" class="submit" />
+            </div>
+          </form>
+        </div>
+
+        <span class="absolute bottom-0 right-0 p-3"
+          >Bạn chưa có tài khoản<a
+            href="register"
+            class="text-orange-800 font-semibold"
+          >
+            Đăng ký</a
+          ></span
+        >
+      </div>
+    </div>
+  </div>
+</div>

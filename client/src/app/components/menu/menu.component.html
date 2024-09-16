@@ -1,0 +1,18 @@
+<div
+  class="flex items-center justify-center bg-orange-700 text-white h-12 px-4"
+>
+  <!-- <span class="cursor-pointer"><i class="bi bi-chevron-left"></i></span> -->
+
+  <ul class="flex space-x-8 text-base uppercase">
+    <li>
+      <a [routerLink]="['/']">Trang chủ</a>
+    </li>
+    <li *ngFor="let category of categories">
+      <a [routerLink]="['/productcate', category.categoryId]">{{
+        category.categoryName
+      }}</a>
+    </li>
+  </ul>
+
+  <!-- <span class="cursor-pointer"><i class="bi bi-chevron-right"></i></span> -->
+</div>

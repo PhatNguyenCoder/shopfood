@@ -1,0 +1,43 @@
+<header class="bg-orange-800">
+  <div class="flex justify-between items-center h-24 mx-20">
+    <div>
+      <img src="../../../assets/images/shopfood.png" alt="" class="w-24" />
+    </div>
+    <div>
+      <ul class="flex justify-center items-center space-x-6 text-white">
+        <li class="text-3xl">
+          <a href=""><i class="bi bi-search"></i></a>
+        </li>
+        <li class="text-3xl relative group">
+          <a href="#"><i class="bi bi-person-fill"></i></a>
+          <ng-container *ngIf="!userEmail; else loggedIn">
+            <ul
+              class="hidden absolute bg-orange-800 text-base w-56 space-y-4 p-2 -ml-20 rounded-md group-hover:block"
+            >
+              <li><a href="login">Đăng nhập</a></li>
+              <li><a href="register">Đăng ký</a></li>
+            </ul>
+          </ng-container>
+          <ng-template #loggedIn>
+            <ul
+              *ngIf="userEmail"
+              class="hidden absolute bg-orange-800 text-base w-56 space-y-4 p-2 -ml-20 rounded-md group-hover:block"
+            >
+              <li>
+                <a href="">{{ userEmail }}</a>
+              </li>
+              <li>
+                <a class="cursor-pointer" (click)="logout()">Đăng xuất</a>
+              </li>
+            </ul>
+          </ng-template>
+        </li>
+        <li class="text-2xl relative">
+          <a (click)="cart()" class="cursor-pointer"
+            ><i class="bi bi-basket-fill"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

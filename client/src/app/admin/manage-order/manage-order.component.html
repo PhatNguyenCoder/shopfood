@@ -1,0 +1,89 @@
+<div>
+  <div class="py-16 mx-3">
+    <table class="w-full text-sm">
+      <thead class="bg-primary text-white border border-primary">
+        <tr>
+          <th class="ct-table-style-th-td">Mã Đơn Hàng</th>
+          <th class="ct-table-style-th-td">Người Nhận</th>
+          <th class="ct-table-style-th-td">Số Điện Thoại</th>
+          <th class="ct-table-style-th-td">Địa Chỉ</th>
+          <th class="ct-table-style-th-td">Tổng Tiền</th>
+          <th class="ct-table-style-th-td">Chi Tiết</th>
+          <th class="ct-table-style-th-td">Trạng Thái</th>
+          <th class="ct-table-style-th-td"></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let order of orders">
+        <tr>
+          <td class="ct-table-style-th-td">{{ order.code }}</td>
+          <td class="ct-table-style-th-td">{{ order.email }}</td>
+          <td class="ct-table-style-th-td">{{ order.phone }}</td>
+          <td class="ct-table-style-th-td">{{ order.address }}</td>
+          <td class="ct-table-style-th-td">{{ order.totalAmount }}</td>
+          <td class="ct-table-style-th-td">
+            <a (click)="showDetailOrder(order._id)" class="cursor-pointer"
+              >Xem chi tiết</a
+            >
+          </td>
+          <td
+            class="ct-table-style-th-td"
+            [ngStyle]="{ color: orderStatusColor(order.active) }"
+          >
+            {{
+              order.active === 0
+                ? "Đang xử lý"
+                : order.active === 1
+                ? "Đang giao hàng"
+                : order.active === 2
+                ? "Đã giao hàng"
+                : ""
+            }}
+          </td>
+          <td class="ct-table-style-th-td">
+            <button
+              class="bg-blue-500 text-white p-2 font-bold"
+              (click)="updateOrderStatus(order)"
+              [disabled]="order.active === 2"
+              [ngStyle]="{ opacity: order.active === 2 ? 0.5 : 1 }"
+            >
+              Cập Nhật
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="isForm" class="overlay" (click)="hideDetailOrder()">
+      <div class="bg-white" (click)="$event.stopPropagation()">
+        <table class="w-full text-sm">
+          <thead class="bg-primary text-white border border-primary">
+            <tr>
+              <th class="ct-table-style-th-td">Image</th>
+              <th class="ct-table-style-th-td">ProductName</th>
+              <th class="ct-table-style-th-td">Price</th>
+              <th class="ct-table-style-th-td">Quantity</th>
+              <th class="ct-table-style-th-td">Money</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of detailOrder.items">
+            <tr>
+              <td class="ct-table-style-th-td">
+                <img
+                  src="http://localhost:3002{{ item.image }}"
+                  alt=""
+                  class="w-24"
+                />
+              </td>
+              <td class="ct-table-style-th-td">{{ item.productName }}</td>
+              <td class="ct-table-style-th-td">{{ item.price }}</td>
+              <td class="ct-table-style-th-td">{{ item.quantity }}</td>
+              <td class="ct-table-style-th-td">
+                {{ item.price * item.quantity }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

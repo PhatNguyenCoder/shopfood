@@ -1,0 +1,64 @@
+<div class="bg-slate-200 flex justify-center items-center p-100">
+  <div class="bg-slate-300 w-96 h-auto flex flex-col justify-center rounded-xl">
+    <div class="flex justify-center mb-4">
+      <img
+        src="../../../assets/images/user.jpg"
+        alt=""
+        class="rounded-full w-36 py-5"
+      />
+    </div>
+    <form [formGroup]="loginForm" class="mx-5 space-y-8" (ngSubmit)="submit()">
+      <div>
+        <label>Email:</label> <br />
+        <input
+          type="text"
+          placeholder="example@gmail.com"
+          class="input-login"
+          formControlName="email"
+        />
+        <div
+          *ngIf="
+            (loginForm.get('email')?.invalid &&
+              loginForm.get('email')?.dirty) ||
+            loginForm.get('email')?.touched
+          "
+          class="absolute py-1 text-red-700"
+        >
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">
+            <p>Email is required</p>
+          </div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">
+            <p>Email invalidate</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label>Password:</label> <br />
+        <input
+          type="password"
+          placeholder="**********"
+          class="input-login"
+          formControlName="password"
+        />
+        <div
+          *ngIf="
+            (loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.dirty) ||
+            loginForm.get('password')?.touched
+          "
+          class="absolute py-1 text-red-700"
+        >
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">
+            <p>Password is required</p>
+          </div>
+          <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            <p>Password must be longer than 6 characters</p>
+          </div>
+        </div>
+        <div class="py-9 pt-9 flex justify-center">
+          <input type="submit" value="Đăng nhập" class="submit-login" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

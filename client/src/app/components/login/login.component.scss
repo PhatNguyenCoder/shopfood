@@ -1,0 +1,12 @@
+.animate {
+  animation: 0.7s iden ease-in-out;
+}
+
+@keyframes iden {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}

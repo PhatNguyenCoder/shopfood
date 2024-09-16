@@ -1,0 +1,94 @@
+<div class="mx-20">
+  <h1 class="p-5 font-semibold uppercase text-orange-700 text-2xl">Giỏ hàng</h1>
+  <hr class="p-2" />
+
+  <div class="grid grid-cols-6 gap-5">
+    <div class="col-span-4">
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-blue-500 text-white border border-blue-500">
+          <tr>
+            <th class="ct-table-style-th-td">Hình ảnh</th>
+            <th class="ct-table-style-th-td">Tên</th>
+            <th class="ct-table-style-th-td">Giá</th>
+            <th class="ct-table-style-th-td">Số lượng</th>
+            <th class="ct-table-style-th-td">Thành tiền</th>
+            <th class="ct-table-style-th-td"></th>
+          </tr>
+        </thead>
+        <div
+          *ngIf="empty"
+          class="text-center text-red-500 py-8 font-bold text-base"
+        >
+          Hiện không có sản phẩm nào trong giỏ hàng
+        </div>
+
+        <tbody *ngFor="let cart of carts">
+          <tr>
+            <td class="ct-table-style-th-td">
+              <img
+                src="http://localhost:3002{{ cart.image }}"
+                alt=""
+                class="w-24"
+              />
+            </td>
+            <td class="ct-table-style-th-td">{{ cart.productName }}</td>
+            <td class="ct-table-style-th-td">
+              {{ cart.price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }) }}
+            </td>
+            <td class="ct-table-style-th-td">
+              <input
+                type="number"
+                [(ngModel)]="cart.quantity"
+                min="1"
+                class="w-16 text-center border border-gray-300 rounded"
+                (change)="updateQuantity(cart._id, cart.quantity)"
+              />
+            </td>
+            <td class="ct-table-style-th-td">
+              {{ (cart.quantity * cart.price).toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }) }}
+            </td>
+            <td class="ct-table-style-th-td">
+              <button
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                (click)="deleteCart(cart._id)"
+              >
+                Xoá
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="py-5 mx-2">
+        <a [routerLink]="['/']" routerLinkActive="router-link-active"
+          ><input type="submit" value="Tiếp tục mua hàng" class="submit"
+        /></a>
+      </div>
+    </div>
+    <div class="col-span-2">
+      <div class="p-1">
+        <h1 class="uppercase font-semibold text-orange-800 py-2">Thanh toán</h1>
+        <hr />
+        <div class="flex justify-between py-2">
+          <div>Tổng cộng:</div>
+          <div>
+            {{ totalAmount.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }) }}
+          </div>
+        </div>
+        <a routerLink="/check-out" routerLinkActive="router-link-active">
+          <div class="py-5">
+            <input type="submit" value="Tiến hành thanh toán" class="submit" />
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
